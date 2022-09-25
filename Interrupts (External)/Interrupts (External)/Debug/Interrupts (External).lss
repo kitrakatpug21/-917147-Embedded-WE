@@ -1,0 +1,465 @@
+
+Interrupts (External).elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000002aa  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000002fe  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000002fe  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000330  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000030  00000000  00000000  0000036c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000a1b  00000000  00000000  0000039c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005f7  00000000  00000000  00000db7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000404  00000000  00000000  000013ae  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  0000007c  00000000  00000000  000017b4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000357  00000000  00000000  00001830  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000580  00000000  00000000  00001b87  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  00002107  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 72 00 	jmp	0xe4	; 0xe4 <__vector_1>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 36 00 	jmp	0x6c	; 0x6c <__vector_18>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <main>
+  64:	0c 94 53 01 	jmp	0x2a6	; 0x2a6 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <__vector_18>:
+#define F_CPU 8000000UL
+#include <util/delay.h>
+#include <avr/interrupt.h>
+
+ISR(INT2_vect) // Interrupt Service Routine
+{
+  6c:	1f 92       	push	r1
+  6e:	0f 92       	push	r0
+  70:	0f b6       	in	r0, 0x3f	; 63
+  72:	0f 92       	push	r0
+  74:	11 24       	eor	r1, r1
+  76:	2f 93       	push	r18
+  78:	8f 93       	push	r24
+  7a:	9f 93       	push	r25
+	PORTA = 0b00000011;
+  7c:	83 e0       	ldi	r24, 0x03	; 3
+  7e:	8b bb       	out	0x1b, r24	; 27
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  80:	2f ef       	ldi	r18, 0xFF	; 255
+  82:	89 e6       	ldi	r24, 0x69	; 105
+  84:	98 e1       	ldi	r25, 0x18	; 24
+  86:	21 50       	subi	r18, 0x01	; 1
+  88:	80 40       	sbci	r24, 0x00	; 0
+  8a:	90 40       	sbci	r25, 0x00	; 0
+  8c:	e1 f7       	brne	.-8      	; 0x86 <__vector_18+0x1a>
+  8e:	00 c0       	rjmp	.+0      	; 0x90 <__vector_18+0x24>
+  90:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00001100;
+  92:	8c e0       	ldi	r24, 0x0C	; 12
+  94:	8b bb       	out	0x1b, r24	; 27
+  96:	2f ef       	ldi	r18, 0xFF	; 255
+  98:	89 e6       	ldi	r24, 0x69	; 105
+  9a:	98 e1       	ldi	r25, 0x18	; 24
+  9c:	21 50       	subi	r18, 0x01	; 1
+  9e:	80 40       	sbci	r24, 0x00	; 0
+  a0:	90 40       	sbci	r25, 0x00	; 0
+  a2:	e1 f7       	brne	.-8      	; 0x9c <__vector_18+0x30>
+  a4:	00 c0       	rjmp	.+0      	; 0xa6 <__vector_18+0x3a>
+  a6:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00110000;
+  a8:	80 e3       	ldi	r24, 0x30	; 48
+  aa:	8b bb       	out	0x1b, r24	; 27
+  ac:	2f ef       	ldi	r18, 0xFF	; 255
+  ae:	89 e6       	ldi	r24, 0x69	; 105
+  b0:	98 e1       	ldi	r25, 0x18	; 24
+  b2:	21 50       	subi	r18, 0x01	; 1
+  b4:	80 40       	sbci	r24, 0x00	; 0
+  b6:	90 40       	sbci	r25, 0x00	; 0
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <__vector_18+0x46>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <__vector_18+0x50>
+  bc:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b11000000;
+  be:	80 ec       	ldi	r24, 0xC0	; 192
+  c0:	8b bb       	out	0x1b, r24	; 27
+  c2:	2f ef       	ldi	r18, 0xFF	; 255
+  c4:	89 e6       	ldi	r24, 0x69	; 105
+  c6:	98 e1       	ldi	r25, 0x18	; 24
+  c8:	21 50       	subi	r18, 0x01	; 1
+  ca:	80 40       	sbci	r24, 0x00	; 0
+  cc:	90 40       	sbci	r25, 0x00	; 0
+  ce:	e1 f7       	brne	.-8      	; 0xc8 <__vector_18+0x5c>
+  d0:	00 c0       	rjmp	.+0      	; 0xd2 <__vector_18+0x66>
+  d2:	00 00       	nop
+	_delay_ms(1000);
+}
+  d4:	9f 91       	pop	r25
+  d6:	8f 91       	pop	r24
+  d8:	2f 91       	pop	r18
+  da:	0f 90       	pop	r0
+  dc:	0f be       	out	0x3f, r0	; 63
+  de:	0f 90       	pop	r0
+  e0:	1f 90       	pop	r1
+  e2:	18 95       	reti
+
+000000e4 <__vector_1>:
+
+ISR(INT0_vect) // Interrupt Service Routine
+{
+  e4:	1f 92       	push	r1
+  e6:	0f 92       	push	r0
+  e8:	0f b6       	in	r0, 0x3f	; 63
+  ea:	0f 92       	push	r0
+  ec:	11 24       	eor	r1, r1
+  ee:	2f 93       	push	r18
+  f0:	8f 93       	push	r24
+  f2:	9f 93       	push	r25
+	PORTA = 0b11000011;
+  f4:	83 ec       	ldi	r24, 0xC3	; 195
+  f6:	8b bb       	out	0x1b, r24	; 27
+  f8:	2f ef       	ldi	r18, 0xFF	; 255
+  fa:	89 e6       	ldi	r24, 0x69	; 105
+  fc:	98 e1       	ldi	r25, 0x18	; 24
+  fe:	21 50       	subi	r18, 0x01	; 1
+ 100:	80 40       	sbci	r24, 0x00	; 0
+ 102:	90 40       	sbci	r25, 0x00	; 0
+ 104:	e1 f7       	brne	.-8      	; 0xfe <__vector_1+0x1a>
+ 106:	00 c0       	rjmp	.+0      	; 0x108 <__vector_1+0x24>
+ 108:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00111100;
+ 10a:	8c e3       	ldi	r24, 0x3C	; 60
+ 10c:	8b bb       	out	0x1b, r24	; 27
+ 10e:	2f ef       	ldi	r18, 0xFF	; 255
+ 110:	89 e6       	ldi	r24, 0x69	; 105
+ 112:	98 e1       	ldi	r25, 0x18	; 24
+ 114:	21 50       	subi	r18, 0x01	; 1
+ 116:	80 40       	sbci	r24, 0x00	; 0
+ 118:	90 40       	sbci	r25, 0x00	; 0
+ 11a:	e1 f7       	brne	.-8      	; 0x114 <__vector_1+0x30>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <__vector_1+0x3a>
+ 11e:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00000000;
+ 120:	1b ba       	out	0x1b, r1	; 27
+ 122:	2f ef       	ldi	r18, 0xFF	; 255
+ 124:	89 e6       	ldi	r24, 0x69	; 105
+ 126:	98 e1       	ldi	r25, 0x18	; 24
+ 128:	21 50       	subi	r18, 0x01	; 1
+ 12a:	80 40       	sbci	r24, 0x00	; 0
+ 12c:	90 40       	sbci	r25, 0x00	; 0
+ 12e:	e1 f7       	brne	.-8      	; 0x128 <__vector_1+0x44>
+ 130:	00 c0       	rjmp	.+0      	; 0x132 <__vector_1+0x4e>
+ 132:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00011000;
+ 134:	88 e1       	ldi	r24, 0x18	; 24
+ 136:	8b bb       	out	0x1b, r24	; 27
+ 138:	2f ef       	ldi	r18, 0xFF	; 255
+ 13a:	89 e6       	ldi	r24, 0x69	; 105
+ 13c:	98 e1       	ldi	r25, 0x18	; 24
+ 13e:	21 50       	subi	r18, 0x01	; 1
+ 140:	80 40       	sbci	r24, 0x00	; 0
+ 142:	90 40       	sbci	r25, 0x00	; 0
+ 144:	e1 f7       	brne	.-8      	; 0x13e <__vector_1+0x5a>
+ 146:	00 c0       	rjmp	.+0      	; 0x148 <__vector_1+0x64>
+ 148:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00100100;
+ 14a:	84 e2       	ldi	r24, 0x24	; 36
+ 14c:	8b bb       	out	0x1b, r24	; 27
+ 14e:	2f ef       	ldi	r18, 0xFF	; 255
+ 150:	89 e6       	ldi	r24, 0x69	; 105
+ 152:	98 e1       	ldi	r25, 0x18	; 24
+ 154:	21 50       	subi	r18, 0x01	; 1
+ 156:	80 40       	sbci	r24, 0x00	; 0
+ 158:	90 40       	sbci	r25, 0x00	; 0
+ 15a:	e1 f7       	brne	.-8      	; 0x154 <__vector_1+0x70>
+ 15c:	00 c0       	rjmp	.+0      	; 0x15e <__vector_1+0x7a>
+ 15e:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b01000010;
+ 160:	82 e4       	ldi	r24, 0x42	; 66
+ 162:	8b bb       	out	0x1b, r24	; 27
+ 164:	2f ef       	ldi	r18, 0xFF	; 255
+ 166:	89 e6       	ldi	r24, 0x69	; 105
+ 168:	98 e1       	ldi	r25, 0x18	; 24
+ 16a:	21 50       	subi	r18, 0x01	; 1
+ 16c:	80 40       	sbci	r24, 0x00	; 0
+ 16e:	90 40       	sbci	r25, 0x00	; 0
+ 170:	e1 f7       	brne	.-8      	; 0x16a <__vector_1+0x86>
+ 172:	00 c0       	rjmp	.+0      	; 0x174 <__vector_1+0x90>
+ 174:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b10000001;
+ 176:	81 e8       	ldi	r24, 0x81	; 129
+ 178:	8b bb       	out	0x1b, r24	; 27
+ 17a:	2f ef       	ldi	r18, 0xFF	; 255
+ 17c:	89 e6       	ldi	r24, 0x69	; 105
+ 17e:	98 e1       	ldi	r25, 0x18	; 24
+ 180:	21 50       	subi	r18, 0x01	; 1
+ 182:	80 40       	sbci	r24, 0x00	; 0
+ 184:	90 40       	sbci	r25, 0x00	; 0
+ 186:	e1 f7       	brne	.-8      	; 0x180 <__vector_1+0x9c>
+ 188:	00 c0       	rjmp	.+0      	; 0x18a <__vector_1+0xa6>
+ 18a:	00 00       	nop
+	_delay_ms(1000);
+	PORTA = 0b00000000;
+ 18c:	1b ba       	out	0x1b, r1	; 27
+ 18e:	2f ef       	ldi	r18, 0xFF	; 255
+ 190:	89 e6       	ldi	r24, 0x69	; 105
+ 192:	98 e1       	ldi	r25, 0x18	; 24
+ 194:	21 50       	subi	r18, 0x01	; 1
+ 196:	80 40       	sbci	r24, 0x00	; 0
+ 198:	90 40       	sbci	r25, 0x00	; 0
+ 19a:	e1 f7       	brne	.-8      	; 0x194 <__vector_1+0xb0>
+ 19c:	00 c0       	rjmp	.+0      	; 0x19e <__vector_1+0xba>
+ 19e:	00 00       	nop
+	_delay_ms(1000);
+}
+ 1a0:	9f 91       	pop	r25
+ 1a2:	8f 91       	pop	r24
+ 1a4:	2f 91       	pop	r18
+ 1a6:	0f 90       	pop	r0
+ 1a8:	0f be       	out	0x3f, r0	; 63
+ 1aa:	0f 90       	pop	r0
+ 1ac:	1f 90       	pop	r1
+ 1ae:	18 95       	reti
+
+000001b0 <main>:
+
+int main(void)
+{
+	DDRA = 0b11111111;
+ 1b0:	8f ef       	ldi	r24, 0xFF	; 255
+ 1b2:	8a bb       	out	0x1a, r24	; 26
+    //GICR = 0b00100000; // Enabled INT2
+	GICR = 0b01100000;// INT0 and 2 are enabled
+ 1b4:	80 e6       	ldi	r24, 0x60	; 96
+ 1b6:	8b bf       	out	0x3b, r24	; 59
+	//GICR |= (1<<6); // Enabled INT0
+	MCUCR = 0b00000010; // INT0 : Falling Edge Trigger
+ 1b8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ba:	85 bf       	out	0x35, r24	; 53
+	//MCUCR |= (1<<1)|(1<<0);
+	MCUCSR = 0b01000000; // INT2 : Rising Edge Trigger
+ 1bc:	80 e4       	ldi	r24, 0x40	; 64
+ 1be:	84 bf       	out	0x34, r24	; 52
+	//MCUCSR |= (1<<6);
+	sei(); // start interrupt request
+ 1c0:	78 94       	sei
+	PORTA = 0b00000000;
+ 1c2:	1b ba       	out	0x1b, r1	; 27
+    while (1) 
+    {
+		for (int i = 0; i <= 7; i = i + 1)
+ 1c4:	20 e0       	ldi	r18, 0x00	; 0
+ 1c6:	30 e0       	ldi	r19, 0x00	; 0
+ 1c8:	16 c0       	rjmp	.+44     	; 0x1f6 <main+0x46>
+		{
+			PORTA |= (1<<i);// generate pattern
+ 1ca:	4b b3       	in	r20, 0x1b	; 27
+ 1cc:	81 e0       	ldi	r24, 0x01	; 1
+ 1ce:	90 e0       	ldi	r25, 0x00	; 0
+ 1d0:	02 2e       	mov	r0, r18
+ 1d2:	02 c0       	rjmp	.+4      	; 0x1d8 <main+0x28>
+ 1d4:	88 0f       	add	r24, r24
+ 1d6:	99 1f       	adc	r25, r25
+ 1d8:	0a 94       	dec	r0
+ 1da:	e2 f7       	brpl	.-8      	; 0x1d4 <main+0x24>
+ 1dc:	84 2b       	or	r24, r20
+ 1de:	8b bb       	out	0x1b, r24	; 27
+ 1e0:	4f ef       	ldi	r20, 0xFF	; 255
+ 1e2:	80 e7       	ldi	r24, 0x70	; 112
+ 1e4:	92 e0       	ldi	r25, 0x02	; 2
+ 1e6:	41 50       	subi	r20, 0x01	; 1
+ 1e8:	80 40       	sbci	r24, 0x00	; 0
+ 1ea:	90 40       	sbci	r25, 0x00	; 0
+ 1ec:	e1 f7       	brne	.-8      	; 0x1e6 <main+0x36>
+ 1ee:	00 c0       	rjmp	.+0      	; 0x1f0 <main+0x40>
+ 1f0:	00 00       	nop
+	//MCUCSR |= (1<<6);
+	sei(); // start interrupt request
+	PORTA = 0b00000000;
+    while (1) 
+    {
+		for (int i = 0; i <= 7; i = i + 1)
+ 1f2:	2f 5f       	subi	r18, 0xFF	; 255
+ 1f4:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1f6:	28 30       	cpi	r18, 0x08	; 8
+ 1f8:	31 05       	cpc	r19, r1
+ 1fa:	3c f3       	brlt	.-50     	; 0x1ca <main+0x1a>
+ 1fc:	27 e0       	ldi	r18, 0x07	; 7
+ 1fe:	30 e0       	ldi	r19, 0x00	; 0
+ 200:	17 c0       	rjmp	.+46     	; 0x230 <__EEPROM_REGION_LENGTH__+0x30>
+			PORTA |= (1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 7; i >=0 ; i = i - 1)
+		{
+			PORTA &= ~(1<<i);// generate pattern
+ 202:	4b b3       	in	r20, 0x1b	; 27
+ 204:	81 e0       	ldi	r24, 0x01	; 1
+ 206:	90 e0       	ldi	r25, 0x00	; 0
+ 208:	02 2e       	mov	r0, r18
+ 20a:	02 c0       	rjmp	.+4      	; 0x210 <__EEPROM_REGION_LENGTH__+0x10>
+ 20c:	88 0f       	add	r24, r24
+ 20e:	99 1f       	adc	r25, r25
+ 210:	0a 94       	dec	r0
+ 212:	e2 f7       	brpl	.-8      	; 0x20c <__EEPROM_REGION_LENGTH__+0xc>
+ 214:	80 95       	com	r24
+ 216:	84 23       	and	r24, r20
+ 218:	8b bb       	out	0x1b, r24	; 27
+ 21a:	4f ef       	ldi	r20, 0xFF	; 255
+ 21c:	80 e7       	ldi	r24, 0x70	; 112
+ 21e:	92 e0       	ldi	r25, 0x02	; 2
+ 220:	41 50       	subi	r20, 0x01	; 1
+ 222:	80 40       	sbci	r24, 0x00	; 0
+ 224:	90 40       	sbci	r25, 0x00	; 0
+ 226:	e1 f7       	brne	.-8      	; 0x220 <__EEPROM_REGION_LENGTH__+0x20>
+ 228:	00 c0       	rjmp	.+0      	; 0x22a <__EEPROM_REGION_LENGTH__+0x2a>
+ 22a:	00 00       	nop
+		for (int i = 0; i <= 7; i = i + 1)
+		{
+			PORTA |= (1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 7; i >=0 ; i = i - 1)
+ 22c:	21 50       	subi	r18, 0x01	; 1
+ 22e:	31 09       	sbc	r19, r1
+ 230:	33 23       	and	r19, r19
+ 232:	3c f7       	brge	.-50     	; 0x202 <__EEPROM_REGION_LENGTH__+0x2>
+ 234:	27 e0       	ldi	r18, 0x07	; 7
+ 236:	30 e0       	ldi	r19, 0x00	; 0
+ 238:	16 c0       	rjmp	.+44     	; 0x266 <__EEPROM_REGION_LENGTH__+0x66>
+			PORTA &= ~(1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 7; i >= 0; i = i - 1)
+		{
+			PORTA |= (1<<i);// generate pattern
+ 23a:	4b b3       	in	r20, 0x1b	; 27
+ 23c:	81 e0       	ldi	r24, 0x01	; 1
+ 23e:	90 e0       	ldi	r25, 0x00	; 0
+ 240:	02 2e       	mov	r0, r18
+ 242:	02 c0       	rjmp	.+4      	; 0x248 <__EEPROM_REGION_LENGTH__+0x48>
+ 244:	88 0f       	add	r24, r24
+ 246:	99 1f       	adc	r25, r25
+ 248:	0a 94       	dec	r0
+ 24a:	e2 f7       	brpl	.-8      	; 0x244 <__EEPROM_REGION_LENGTH__+0x44>
+ 24c:	84 2b       	or	r24, r20
+ 24e:	8b bb       	out	0x1b, r24	; 27
+ 250:	4f ef       	ldi	r20, 0xFF	; 255
+ 252:	80 e7       	ldi	r24, 0x70	; 112
+ 254:	92 e0       	ldi	r25, 0x02	; 2
+ 256:	41 50       	subi	r20, 0x01	; 1
+ 258:	80 40       	sbci	r24, 0x00	; 0
+ 25a:	90 40       	sbci	r25, 0x00	; 0
+ 25c:	e1 f7       	brne	.-8      	; 0x256 <__EEPROM_REGION_LENGTH__+0x56>
+ 25e:	00 c0       	rjmp	.+0      	; 0x260 <__EEPROM_REGION_LENGTH__+0x60>
+ 260:	00 00       	nop
+		for (int i = 7; i >=0 ; i = i - 1)
+		{
+			PORTA &= ~(1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 7; i >= 0; i = i - 1)
+ 262:	21 50       	subi	r18, 0x01	; 1
+ 264:	31 09       	sbc	r19, r1
+ 266:	33 23       	and	r19, r19
+ 268:	44 f7       	brge	.-48     	; 0x23a <__EEPROM_REGION_LENGTH__+0x3a>
+ 26a:	20 e0       	ldi	r18, 0x00	; 0
+ 26c:	30 e0       	ldi	r19, 0x00	; 0
+ 26e:	17 c0       	rjmp	.+46     	; 0x29e <__EEPROM_REGION_LENGTH__+0x9e>
+			PORTA |= (1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 0; i <= 7 ; i = i + 1)
+		{
+			PORTA &= ~(1<<i);// generate pattern
+ 270:	4b b3       	in	r20, 0x1b	; 27
+ 272:	81 e0       	ldi	r24, 0x01	; 1
+ 274:	90 e0       	ldi	r25, 0x00	; 0
+ 276:	02 2e       	mov	r0, r18
+ 278:	02 c0       	rjmp	.+4      	; 0x27e <__EEPROM_REGION_LENGTH__+0x7e>
+ 27a:	88 0f       	add	r24, r24
+ 27c:	99 1f       	adc	r25, r25
+ 27e:	0a 94       	dec	r0
+ 280:	e2 f7       	brpl	.-8      	; 0x27a <__EEPROM_REGION_LENGTH__+0x7a>
+ 282:	80 95       	com	r24
+ 284:	84 23       	and	r24, r20
+ 286:	8b bb       	out	0x1b, r24	; 27
+ 288:	4f ef       	ldi	r20, 0xFF	; 255
+ 28a:	80 e7       	ldi	r24, 0x70	; 112
+ 28c:	92 e0       	ldi	r25, 0x02	; 2
+ 28e:	41 50       	subi	r20, 0x01	; 1
+ 290:	80 40       	sbci	r24, 0x00	; 0
+ 292:	90 40       	sbci	r25, 0x00	; 0
+ 294:	e1 f7       	brne	.-8      	; 0x28e <__EEPROM_REGION_LENGTH__+0x8e>
+ 296:	00 c0       	rjmp	.+0      	; 0x298 <__EEPROM_REGION_LENGTH__+0x98>
+ 298:	00 00       	nop
+		for (int i = 7; i >= 0; i = i - 1)
+		{
+			PORTA |= (1<<i);// generate pattern
+			_delay_ms(100);
+		}
+		for (int i = 0; i <= 7 ; i = i + 1)
+ 29a:	2f 5f       	subi	r18, 0xFF	; 255
+ 29c:	3f 4f       	sbci	r19, 0xFF	; 255
+ 29e:	28 30       	cpi	r18, 0x08	; 8
+ 2a0:	31 05       	cpc	r19, r1
+ 2a2:	34 f3       	brlt	.-52     	; 0x270 <__EEPROM_REGION_LENGTH__+0x70>
+ 2a4:	8f cf       	rjmp	.-226    	; 0x1c4 <main+0x14>
+
+000002a6 <_exit>:
+ 2a6:	f8 94       	cli
+
+000002a8 <__stop_program>:
+ 2a8:	ff cf       	rjmp	.-2      	; 0x2a8 <__stop_program>
