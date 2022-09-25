@@ -1,0 +1,270 @@
+
+7Segment Counter using Switch.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000148  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  00000148  000001bc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001c6  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001f8  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000234  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006eb  00000000  00000000  00000254  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000606  00000000  00000000  0000093f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000320  00000000  00000000  00000f45  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00001268  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000375  00000000  00000000  0000128c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000154  00000000  00000000  00001601  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  00001755  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e8 e4       	ldi	r30, 0x48	; 72
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 41 00 	call	0x82	; 0x82 <main>
+  7a:	0c 94 a2 00 	jmp	0x144	; 0x144 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <main>:
+	0b01101111, //Display 9 at Index 9
+};
+
+int main(void)
+{
+    DDRC = 0b01111111;// PC6 to PC0 as OUTPUT
+  82:	8f e7       	ldi	r24, 0x7F	; 127
+  84:	84 bb       	out	0x14, r24	; 20
+    DDRD = 0b00001111; // COM Pin for Seg 1 and 2 and 3 and 4
+  86:	8f e0       	ldi	r24, 0x0F	; 15
+  88:	81 bb       	out	0x11, r24	; 17
+    DDRA = 0b00000000; // Whole PORTA is an Input PORT
+  8a:	1a ba       	out	0x1a, r1	; 26
+	int thou = 0, hund = 0, tens = 0, ones = 0;
+  8c:	40 e0       	ldi	r20, 0x00	; 0
+  8e:	50 e0       	ldi	r21, 0x00	; 0
+  90:	60 e0       	ldi	r22, 0x00	; 0
+  92:	70 e0       	ldi	r23, 0x00	; 0
+	while (1) 
+    {
+		if (PINA & 0b10000000) // PA7 as Increment Counter
+  94:	cf 9b       	sbis	0x19, 7	; 25
+  96:	1a c0       	rjmp	.+52     	; 0xcc <main+0x4a>
+		{
+			while(PINA & 0b10000000); // PA7 as Increment Counter
+  98:	cf 99       	sbic	0x19, 7	; 25
+  9a:	fe cf       	rjmp	.-4      	; 0x98 <main+0x16>
+			if (tens == 5 && ones == 9)
+  9c:	65 30       	cpi	r22, 0x05	; 5
+  9e:	71 05       	cpc	r23, r1
+  a0:	19 f4       	brne	.+6      	; 0xa8 <main+0x26>
+  a2:	49 30       	cpi	r20, 0x09	; 9
+  a4:	51 05       	cpc	r21, r1
+  a6:	71 f0       	breq	.+28     	; 0xc4 <main+0x42>
+			{
+				tens = 0; ones = 0;
+			}
+			else if (tens < 5 && ones == 9)
+  a8:	65 30       	cpi	r22, 0x05	; 5
+  aa:	71 05       	cpc	r23, r1
+  ac:	44 f4       	brge	.+16     	; 0xbe <main+0x3c>
+  ae:	49 30       	cpi	r20, 0x09	; 9
+  b0:	51 05       	cpc	r21, r1
+  b2:	29 f4       	brne	.+10     	; 0xbe <main+0x3c>
+			{
+				tens = tens + 1;
+  b4:	6f 5f       	subi	r22, 0xFF	; 255
+  b6:	7f 4f       	sbci	r23, 0xFF	; 255
+				ones = 0;
+  b8:	40 e0       	ldi	r20, 0x00	; 0
+  ba:	50 e0       	ldi	r21, 0x00	; 0
+  bc:	07 c0       	rjmp	.+14     	; 0xcc <main+0x4a>
+			}
+			else
+			{
+				ones = ones + 1;
+  be:	4f 5f       	subi	r20, 0xFF	; 255
+  c0:	5f 4f       	sbci	r21, 0xFF	; 255
+  c2:	04 c0       	rjmp	.+8      	; 0xcc <main+0x4a>
+		if (PINA & 0b10000000) // PA7 as Increment Counter
+		{
+			while(PINA & 0b10000000); // PA7 as Increment Counter
+			if (tens == 5 && ones == 9)
+			{
+				tens = 0; ones = 0;
+  c4:	40 e0       	ldi	r20, 0x00	; 0
+  c6:	50 e0       	ldi	r21, 0x00	; 0
+  c8:	60 e0       	ldi	r22, 0x00	; 0
+  ca:	70 e0       	ldi	r23, 0x00	; 0
+			else
+			{
+				ones = ones + 1;
+			}
+		}
+		if (PINA & 0b00000001) // PA0 as Decrement Counter
+  cc:	c8 9b       	sbis	0x19, 0	; 25
+  ce:	18 c0       	rjmp	.+48     	; 0x100 <main+0x7e>
+		{
+			if (tens == 0 && ones == 0)
+  d0:	61 15       	cp	r22, r1
+  d2:	71 05       	cpc	r23, r1
+  d4:	19 f4       	brne	.+6      	; 0xdc <main+0x5a>
+  d6:	41 15       	cp	r20, r1
+  d8:	51 05       	cpc	r21, r1
+  da:	71 f0       	breq	.+28     	; 0xf8 <main+0x76>
+			{
+				tens = 5; ones = 9;
+			}
+			else if (tens > 0 && ones == 0)
+  dc:	16 16       	cp	r1, r22
+  de:	17 06       	cpc	r1, r23
+  e0:	44 f4       	brge	.+16     	; 0xf2 <main+0x70>
+  e2:	41 15       	cp	r20, r1
+  e4:	51 05       	cpc	r21, r1
+  e6:	29 f4       	brne	.+10     	; 0xf2 <main+0x70>
+			{
+				tens = tens - 1;
+  e8:	61 50       	subi	r22, 0x01	; 1
+  ea:	71 09       	sbc	r23, r1
+				ones = 9;
+  ec:	49 e0       	ldi	r20, 0x09	; 9
+  ee:	50 e0       	ldi	r21, 0x00	; 0
+  f0:	07 c0       	rjmp	.+14     	; 0x100 <main+0x7e>
+			}
+			else
+			{
+				ones = ones - 1;
+  f2:	41 50       	subi	r20, 0x01	; 1
+  f4:	51 09       	sbc	r21, r1
+  f6:	04 c0       	rjmp	.+8      	; 0x100 <main+0x7e>
+		}
+		if (PINA & 0b00000001) // PA0 as Decrement Counter
+		{
+			if (tens == 0 && ones == 0)
+			{
+				tens = 5; ones = 9;
+  f8:	49 e0       	ldi	r20, 0x09	; 9
+  fa:	50 e0       	ldi	r21, 0x00	; 0
+  fc:	65 e0       	ldi	r22, 0x05	; 5
+  fe:	70 e0       	ldi	r23, 0x00	; 0
+			else
+			{
+				ones = ones - 1;
+			}
+		}
+		for (int rp = 0; rp < 10; rp = rp+ 1)// for a real time clock, (rp < 600)
+ 100:	80 e0       	ldi	r24, 0x00	; 0
+ 102:	90 e0       	ldi	r25, 0x00	; 0
+ 104:	1b c0       	rjmp	.+54     	; 0x13c <main+0xba>
+// 			PORTC = segment[thou];
+// 			_delay_ms(15);
+// 			PORTD = 0b00001101;
+// 			PORTC = segment[hund];
+// 			_delay_ms(15);
+			PORTD = 0b000001011;
+ 106:	2b e0       	ldi	r18, 0x0B	; 11
+ 108:	22 bb       	out	0x12, r18	; 18
+			PORTC = segment[tens];
+ 10a:	fb 01       	movw	r30, r22
+ 10c:	e0 5a       	subi	r30, 0xA0	; 160
+ 10e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 110:	20 81       	ld	r18, Z
+ 112:	25 bb       	out	0x15, r18	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 114:	ef e2       	ldi	r30, 0x2F	; 47
+ 116:	f5 e7       	ldi	r31, 0x75	; 117
+ 118:	31 97       	sbiw	r30, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <main+0x96>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <main+0x9c>
+ 11e:	00 00       	nop
+			_delay_ms(15);
+			PORTD = 0b000000111;
+ 120:	27 e0       	ldi	r18, 0x07	; 7
+ 122:	22 bb       	out	0x12, r18	; 18
+			PORTC = segment[ones];
+ 124:	fa 01       	movw	r30, r20
+ 126:	e0 5a       	subi	r30, 0xA0	; 160
+ 128:	ff 4f       	sbci	r31, 0xFF	; 255
+ 12a:	20 81       	ld	r18, Z
+ 12c:	25 bb       	out	0x15, r18	; 21
+ 12e:	ef e2       	ldi	r30, 0x2F	; 47
+ 130:	f5 e7       	ldi	r31, 0x75	; 117
+ 132:	31 97       	sbiw	r30, 0x01	; 1
+ 134:	f1 f7       	brne	.-4      	; 0x132 <main+0xb0>
+ 136:	00 c0       	rjmp	.+0      	; 0x138 <main+0xb6>
+ 138:	00 00       	nop
+			else
+			{
+				ones = ones - 1;
+			}
+		}
+		for (int rp = 0; rp < 10; rp = rp+ 1)// for a real time clock, (rp < 600)
+ 13a:	01 96       	adiw	r24, 0x01	; 1
+ 13c:	8a 30       	cpi	r24, 0x0A	; 10
+ 13e:	91 05       	cpc	r25, r1
+ 140:	14 f3       	brlt	.-60     	; 0x106 <main+0x84>
+ 142:	a8 cf       	rjmp	.-176    	; 0x94 <main+0x12>
+
+00000144 <_exit>:
+ 144:	f8 94       	cli
+
+00000146 <__stop_program>:
+ 146:	ff cf       	rjmp	.-2      	; 0x146 <__stop_program>
